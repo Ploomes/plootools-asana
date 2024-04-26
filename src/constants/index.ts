@@ -7,7 +7,8 @@ export const DOM_INTERACTION = {
     LINK: '#CustomPropertyRow-field1194588832930727',
     EDITOR: '.ProseMirror',
     FALLBACK_LINK: '.TaskPane-header .BaseLink',
-    TEXT_DESCRIPTION: '.ProsemirrorEditor-paragraph'
+    TEXT_DESCRIPTION: '.ProsemirrorEditor-paragraph',
+    ACTOR_NAME: '#CustomPropertyRow-label1207001160536925'
   },
   FEED_COMMENTS: {
     WRAPPER: '.TaskPane-feed',

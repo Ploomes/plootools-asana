@@ -50,11 +50,12 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
 
       if(!creator) {
         const actorName = document.querySelector(TARGET_ACTOR_NAME) as HTMLElement;
-        creator = actorName.textContent || actorName.innerText;
+        const actorNameField = document.querySelector(TARGET_FIELDS.ACTOR_NAME) as HTMLElement;
+        creator = actorNameField.textContent || actorName.textContent || actorName.innerText;
       }
  
       changelog.template = [
-        `**link:** ${link}`,
+        `**Link:** ${link}`,
         `**Cliente:** ${client.trim()}`,
         `**Descrição:** ${value}`,
         `**Criador:** ${creator.trim()}`
@@ -91,7 +92,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
     const changelogText = changelog.map((item)=>{
       return item?.template.join('\n');
     }).join('\n\n');
-    const template = [
+    let template = [
       'Bugs resolvidos',
       '-------------',
       changelogText,
@@ -104,13 +105,41 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
       '',
       'Propagação',
       '------------'
-    ].join('\n');
-
+    ]
     const fileName = currentVersion || version.textContent || version.innerText || 'version';
+    const changelogTemplate = [];
+    if(/[a-z]$/g.test(fileName)) {
+      changelogTemplate.push(
+        '**======================================',
+        '=== Deploy de hotfix para Ploomes (web)',
+        '======================================',
+        ':purple_circle: Versão interna: `' + fileName + '`',
+        ':purple_circle: Hostsets atingidos: ``',
+        '======================================',
+        '',
+        '--------------------------------------',
+        '| Bugs resolvidos:',
+        '--------------------------------------**',
+        '',
+      );
+    }else {
+      changelogTemplate.push(
+        '** :warning: Pacote de atualizações para Ploomes (web)',
+        '',
+        ':purple_circle: Versão interna: `' + fileName + '`',
+        ':purple_circle: Hostsets inicialmente atingidos: ``',
+        '--------------------------------------',
+        '| Bugs Resolvidos:',
+        '--------------------------------------**'
+      )
+    }
+    changelogTemplate.push(changelogText);
+    template = template.concat(changelogTemplate.join('\n'))
+
     const fileExtension = currentExtension || 'md';
     download({
       name: `${fileName}.${fileExtension}`,
-      data: template.trim(),
+      data: template.join('\n').trim(),
       type: 'text/plain'
     });
     
