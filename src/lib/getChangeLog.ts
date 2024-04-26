@@ -107,7 +107,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
       '------------'
     ]
     const fileName = currentVersion || version.textContent || version.innerText || 'version';
-    const changelogTemplate = [];
+    const changelogTemplate = ['', '', ''];
     if(/[a-z]$/g.test(fileName)) {
       changelogTemplate.push(
         '**======================================',
