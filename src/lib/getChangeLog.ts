@@ -107,7 +107,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
       '------------'
     ]
     const fileName = currentVersion || version.textContent || version.innerText || 'version';
-    const changelogTemplate = ['', '', ''];
+    const changelogTemplate: string[] = [].concat(...Array(5).fill(''));
     if(/[a-z]$/g.test(fileName)) {
       changelogTemplate.push(
         '**======================================',
@@ -130,7 +130,8 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
         ':purple_circle: Hostsets inicialmente atingidos: ``',
         '--------------------------------------',
         '| Bugs Resolvidos:',
-        '--------------------------------------**'
+        '--------------------------------------**',
+        ''
       )
     }
     changelogTemplate.push(changelogText);
