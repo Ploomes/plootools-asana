@@ -8,7 +8,8 @@ export const DOM_INTERACTION = {
     EDITOR: '.ProseMirror',
     FALLBACK_LINK: '.TaskPane-header .BaseLink',
     TEXT_DESCRIPTION: '.ProsemirrorEditor-paragraph',
-    ACTOR_NAME: '#CustomPropertyRow-field1207001160536925'
+    ACTOR_NAME: '#CustomPropertyRow-field1207001160536925',
+    HOSTSETS: '#CustomPropertyRow-field1206215230820851'
   },
   FEED_COMMENTS: {
     WRAPPER: '.TaskPane-feed',

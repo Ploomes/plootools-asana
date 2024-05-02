@@ -4,6 +4,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
   const { states } = await chrome.storage.local.get('states') as {
     states: IStates
   };
+
   const download = (props: IDownload)=>{
     const { name, data, type } = props;
     const a = document.createElement('a');
@@ -17,7 +18,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
   }
   const getTemplate = (index: number)=> {
     const { TARGET_ACTOR_NAME, TARGET_FIELDS } = states.DOM_INTERACTION;
-    const { CHANGELOG, EDITOR, FALLBACK_LINK, LINK, TEXT_DESCRIPTION } = TARGET_FIELDS;
+    const { CHANGELOG, EDITOR, FALLBACK_LINK, LINK, TEXT_DESCRIPTION, HOSTSETS } = TARGET_FIELDS;
     const editorHTML = document.querySelector(EDITOR);
     const changelogFieldHTML = document.querySelector(CHANGELOG) as HTMLTextAreaElement;
     const linkHTML  = document.querySelector(LINK) as HTMLTextAreaElement;
@@ -27,8 +28,17 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
     const changelog: IChangelog = {
       id: index,
       template: [],
-      info: []
+      info: [],
+      hostsets: []
     };
+
+    const elementHostsets = document.querySelector(HOSTSETS) as HTMLElement;
+    if(elementHostsets?.textContent) {
+      let hostsets = elementHostsets.textContent.split(',');
+      hostsets = hostsets.map((item)=> item.replace(/\s/g, ''));
+      changelog.hostsets = hostsets;
+    }
+
     if(changelogFieldHTML) {
       const value = changelogFieldHTML.value;
       let client = 'Ploomes';
@@ -47,6 +57,8 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
           }
         }
       });
+
+
 
       if(!creator) {
         const actorName = document.querySelector(TARGET_ACTOR_NAME) as HTMLElement;
@@ -89,6 +101,10 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
       index++;
     }
 
+    const concatHostsets = changelog.map((item)=> item.hostsets);
+    const mergedHostsets = [...new Set(concatHostsets.flat(1))];
+    const hostsetsNumbers = mergedHostsets.map((item)=> Number(item)).sort((a, b)=> a - b);
+    const hostsetsAffected = hostsetsNumbers.join(', ');
     const changelogText = changelog.map((item)=>{
       return item?.template.join('\n');
     }).join('\n\n');
@@ -99,6 +115,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
       '',
       'Hostsets',
       '-----------',
+      hostsetsAffected,
       '',
       'Versões',
       '-----------',
@@ -114,7 +131,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
         '=== Deploy de hotfix para Ploomes (web)',
         '======================================',
         ':purple_circle: Versão interna: `' + fileName + '`',
-        ':purple_circle: Hostsets atingidos: ``',
+        ':purple_circle: Hostsets atingidos: `'+hostsetsAffected+'`',
         '======================================',
         '',
         '--------------------------------------',
@@ -127,7 +144,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string){
         '** :warning: Pacote de atualizações para Ploomes (web)',
         '',
         ':purple_circle: Versão interna: `' + fileName + '`',
-        ':purple_circle: Hostsets inicialmente atingidos: ``',
+        ':purple_circle: Hostsets inicialmente atingidos: `'+hostsetsAffected+'`',
         '--------------------------------------',
         '| Bugs Resolvidos:',
         '--------------------------------------**',

@@ -4,7 +4,8 @@ export type IStates = typeof STATE_GLOBAL;
 export interface IChangelog {
   id: number;
   template: string[];
-  info: string[]
+  info: string[];
+  hostsets: string[];
 }
 
 export interface IDownload {
