@@ -77,10 +77,16 @@ module.exports = async ()=> {
     },
     plugins: [
       new CopyPlugin({
-        patterns: [{
-          from: "manifest.json",
-          to: "../manifest.json"
-        }],
+        patterns: [
+          {
+            from: "manifest.json",
+            to: "../manifest.json"
+          },
+          {
+            from: "./public/*.png",
+            to: "../[name].png"
+          }
+        ],
       }),
       ...getHtmlPlugins(["index"]),
     ],

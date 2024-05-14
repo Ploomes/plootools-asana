@@ -1,5 +1,5 @@
 {
-  "version": "0.0.1",
+  "version": "0.1.0",
   "manifest_version": 3,
   "name": "Plootools (Asana)",
   "description": "This is a Chrome extension built with React and TypeScript",
@@ -25,5 +25,8 @@
       "matches": ["*://app.asana.com/*"],
       "js": ["js/context.js"]
     }
-  ]
+  ],
+  "icons": {
+    "128": "icon128.png"
+  }
 }

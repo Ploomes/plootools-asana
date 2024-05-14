@@ -2,6 +2,8 @@ export const DOM_INTERACTION = {
   TARGET_LINE_OF_TASK: '.SpreadsheetTaskRow-RootTaskContextMenuTarget',
   TARGET_CLICKABLE_AREA: '.SpreadsheetGridTaskNameAndDetailsCellGroup-detailsButtonClickArea',
   TARGET_WRAPPER_DETAILS: '.FullWidthPageStructureWithDetailsOverlay-detailsOverlay',
+  TASK_FEED: '.TaskStoryFeed',
+  TASK_TITLE: '.TitleInput textarea',
   TARGET_FIELDS: {
     CHANGELOG: '#CustomPropertyRow-field1203420317583983',
     LINK: '#CustomPropertyRow-field1194588832930727',

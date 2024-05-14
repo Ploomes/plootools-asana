@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
-import { Container } from './styles/Components';
 import { STATE_GLOBAL } from './constants';
-import Form from './components/Form';
+import Routes from './routes';
 
 function App() {
   useEffect(()=>{
@@ -11,9 +10,7 @@ function App() {
   }, []);
   return (
     <div className="App">
-      <Container className='center-flex'>
-        <Form />
-      </Container>
+      <Routes />
     </div>
   );
 }
