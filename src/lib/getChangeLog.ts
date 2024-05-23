@@ -17,7 +17,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string, 
     a.remove();
   }
   const getTemplate = (index: number)=> {
-    const { TARGET_ACTOR_NAME, TARGET_FIELDS, TASK_FEED, TASK_TITLE } = states.DOM_INTERACTION;
+    const { TARGET_ACTOR_NAME, TARGET_FIELDS, TASK_FEED, TASK_TITLE, FEED_COMMENTS } = states.DOM_INTERACTION;
     const { CHANGELOG, EDITOR, FALLBACK_LINK, LINK, TEXT_DESCRIPTION, HOSTSETS } = TARGET_FIELDS;
     const editorHTML = document.querySelector(EDITOR);
     const changelogFieldHTML = document.querySelector(CHANGELOG) as HTMLTextAreaElement;
@@ -72,7 +72,7 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string, 
 
     if(changelogFieldHTML) {
       const value = changelogFieldHTML.value;
-      let client = 'Ploomes';
+      let client = '';
       let creator = '';
       const link = linkHTML?.value || fallbackLinkHTML?.href;
 
@@ -91,7 +91,12 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string, 
         }
       });
 
-
+      if(!client) {
+        const firtsComment = document.querySelector(FEED_COMMENTS.ITEMS);
+        if(firtsComment?.textContent) {
+          client = firtsComment.textContent.split('-')?.[0];
+        }
+      }
 
       if(!creator) {
         const actorName = document.querySelector(TARGET_ACTOR_NAME) as HTMLElement;
@@ -101,9 +106,9 @@ async function getChangeLog(currentVersion?: string, currentExtension?: string, 
  
       changelog.template = [
         `**Link:** ${link}`,
-        `**Cliente:** ${client.trim()}`,
+        `**Cliente:** ${client.trim() || 'Ploomes'}`,
         `**Descrição:** ${value}`,
-        `**Criador:** ${creator.trim()}`
+        `**Criador:** ${creator.trim()}`,
       ];
       return changelog;
     }
